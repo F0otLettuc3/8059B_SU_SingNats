@@ -1,5 +1,5 @@
-#ifndef _8059_PP_CONTROL_HPP_
-#define _8059_PP_CONTROL_HPP_
+#ifndef _PP_CONTROL_HPP_
+#define _PP_CONTROL_HPP_
 #define TURN_LEEWAY 2
 #define LEEWAY 3
 #define DEFAULT_W_SMOOTH 0.75

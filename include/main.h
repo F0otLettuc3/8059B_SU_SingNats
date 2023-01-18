@@ -37,6 +37,7 @@
 #include "api.h"
 #include "globals.hpp"
 #include "AutonSets.hpp"
+#include "MechLib.hpp"
 #include "PurePursuitInclude/api.hpp"
 
 

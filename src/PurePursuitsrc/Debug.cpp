@@ -13,7 +13,10 @@ void posPrintMaster(){
   master.print(2, 0, "%.2f %.2f %.2f", position.getX(), position.getY(), bearing*toDeg);
 }
 void encdPrintTerminal(){
-  printf("EncdS: %4.1f \t EncdR: %4.1f\n", encdL, encdV);
+  printf("EncdL: %4.1f \t EncdR: %4.1f\n", encdL, encdV);
+}
+void velPrintTerminal(){
+  printf("VelL: %.2f VelR: %.2f\n", measuredVL, measuredVR);
 }
 
 void Debug(void * ignore) {
@@ -24,6 +27,9 @@ void Debug(void * ignore) {
         break;
       case 1:
         encdPrintTerminal();
+        break;
+      case 2:
+        velPrintTerminal();
         break;
     }
     posPrintMaster();

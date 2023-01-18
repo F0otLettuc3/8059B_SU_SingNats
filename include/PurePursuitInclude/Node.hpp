@@ -1,5 +1,5 @@
-#ifndef _8059_PP_NODE_HPP_
-#define _8059_PP_NODE_HPP_
+#ifndef _PP_NODE_HPP_
+#define _PP_NODE_HPP_
 #include <vector>
 class Node{
 private:

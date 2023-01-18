@@ -1,5 +1,5 @@
-#ifndef _8059_PP_MATH_HPP_
-#define _8059_PP_MATH_HPP_
+#ifndef _PP_MATH_HPP_
+#define _PP_MATH_HPP_
 #include "Node.hpp"
 #define INF 1e5
 #define INFsmall 1/INF

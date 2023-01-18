@@ -1,5 +1,5 @@
-#ifndef _8059_PP_DEBUG_HPP_
-#define _8059_PP_DEBUG_HPP_
+#ifndef _PP_DEBUG_HPP_
+#define _PP_DEBUG_HPP_
 #include <vector>
 /**
  * DEBUG_MODE can be used to debug & test functions and tasks via the terminal.

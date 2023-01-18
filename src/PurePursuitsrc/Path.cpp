@@ -2,8 +2,8 @@
 
 double k = 0.017;
 
-double maxRPMV = 500.0;
-double maxRPMA = 1.0;
+double maxRPMV = 5000;
+double maxRPMA = 1.37;
 
 double globalMaxV = maxRPMV * RPMToInPerMs;
 double globalMaxA = maxRPMA * RPMToInPerMs;
@@ -32,6 +32,7 @@ int Path::getN(){
 double Path::getLookAhead(){
   return lookAhead;
 }
+
 void Path::inject(){
   injWps.clear();
   for(int i = 0;i<=wps.size()-2;++i){
@@ -47,6 +48,7 @@ void Path::inject(){
   injWps.push_back(wps[wps.size()-1]);
   n = injWps.size();
 }
+
 void Path::smooth(){
   smoWps = injWps;
   double change = TOLERANCE;
@@ -62,6 +64,7 @@ void Path::smooth(){
     // printf("change = %.5f\n", change);
   }
 }
+
 void Path::calcDist(){
   Node prevWp = smoWps[0];
   double prevDist = 0;
@@ -74,6 +77,7 @@ void Path::calcDist(){
   }
   // printVector(dist);
 }
+
 void Path::calcCurvature(){
   curv.push_back(0); //starting point
   for (int i = 1;i<=n-2;++i){
@@ -83,6 +87,7 @@ void Path::calcCurvature(){
   // printVector(curv);
   curv.push_back(0); //final point
 }
+
 void Path::calcMaxV(){
   for(int i = 0;i<n;++i){
     // printf("MaxV: %.5f, Curve: %.5f\n", globalMaxV, K/curv[i]);
@@ -90,6 +95,7 @@ void Path::calcMaxV(){
   }
   // printVector(maxV);
 }
+
 void Path::calcTargV(){
   targV.clear();
   targV.resize(n, 0);
@@ -99,6 +105,7 @@ void Path::calcTargV(){
     targV[i] = std::min(maxV[i], sqrt(targV[i+1]*targV[i+1] + 2 * globalMaxA * d));
   }
 }
+
 void Path::setWps(std::vector<Node> p_wps, double p_w_data, double p_w_smooth, double p_lookAhead){
   //perform injection and smooth
   wps = p_wps;

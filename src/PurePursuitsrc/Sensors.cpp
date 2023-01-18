@@ -14,17 +14,17 @@ void sensors(void * ignore){
    Motor BRU (BRUPort);
    Motor BRD (BRDPort);
    Imu imu(imuPort);
-   ADIEncoder encoderV(encdVPort,false);
-   ADIEncoder encoderL(encdLPort,false);
+   ADIEncoder encoderV(encdVPort,(encdVPort+1),false);
+   ADIEncoder encoderL(encdLPort,(encdLPort+1),false);
    bool calibrated = false;
    int start = millis();
   while(true){
-    encdV = -encoderV.get_value()*inPerDeg;
+    encdV = encoderV.get_value()*inPerDeg;
     encdL = encoderL.get_value()*inPerDeg;
     bearing = imu.is_calibrating()? 0 : (imu.get_rotation()*toRad + offset*toRad);
     angle = boundRad(halfPI - bearing);
-    measuredVL = (FL.get_actual_velocity() + BLU.get_actual_velocity() + BLD.get_actual_velocity())/3 * RPMToInPerMs;
-    measuredVR = (FR.get_actual_velocity() + BRU.get_actual_velocity() + BRD.get_actual_velocity())/3 * RPMToInPerMs;;
+    measuredVR = (FL.get_actual_velocity() + BLU.get_actual_velocity() + BLD.get_actual_velocity())/3 * RPMToInPerMs;
+    measuredVL = (FR.get_actual_velocity() + BRU.get_actual_velocity() + BRD.get_actual_velocity())/3 * RPMToInPerMs;;
     measuredV = (measuredVL + measuredVR)/2;
     delay(5);
   }
