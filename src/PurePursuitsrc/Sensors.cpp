@@ -26,6 +26,8 @@ void sensors(void * ignore){
     measuredVR = (FL.get_actual_velocity() + BLU.get_actual_velocity() + BLD.get_actual_velocity())/3 * RPMToInPerMs;
     measuredVL = (FR.get_actual_velocity() + BRU.get_actual_velocity() + BRD.get_actual_velocity())/3 * RPMToInPerMs;;
     measuredV = (measuredVL + measuredVR)/2;
+    // printf("measuredVR: %.2f\t, measuredVL: %.2f\n", measuredVR, measuredVL);
+
     delay(5);
   }
 }

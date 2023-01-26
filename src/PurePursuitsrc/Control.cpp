@@ -1,11 +1,9 @@
 #include "main.h"
-#define kV 1370
-#define kA 11000
-#define kP 350
-#define turnkP 300
-#define turnkV 300
-#define turnkA 4500
-#define DEFAULT_TURN_KP 0.122
+#define kV 1642
+#define kA 9950
+#define kP 950
+#define DEFAULT_TURN_KP 0.0422
+
 // #define kA 50000
 // #define kP 1000
 
@@ -92,7 +90,7 @@ void baseMove(double dis) {
   std::vector<Node> straightPath = {position, position + Node(dis*sin(bearing), dis*cos(bearing))};
 
   double smooth = 0.75;
-	basePP(straightPath, 1-smooth, smooth, 10, dis < 0);
+	basePP(straightPath, 1-smooth, smooth, 14, dis < 0);
 }
 
 void baseMove(double x, double y, bool rev) {
@@ -125,7 +123,7 @@ void PPControl(void * ignore){
   // unit: in/ms^2
   double targAL = 0, targAR = 0;
 
-  int count = 0;
+  int count = 1;
 
   while(competition::is_autonomous()){
     if(count % 10 == 0) printf("status: %s\t", (enablePP? "enabled": "disabled"));
@@ -202,7 +200,28 @@ void PPControl(void * ignore){
       targVR = targV*(2 + moveCurvature*2*R_DIS)/2;
       if(count % 10 == 0) printf("\tMove Curvature: %.5f", moveCurvature*1000);
 
-         // motor controller
+
+    }else {
+      double errorBearing = targBearing - bearing;
+      printf("errorBearing: %.2f \n", errorBearing);
+      if(enableL&&enableR) {
+        targVR = enableL ? abscap(errorBearing*turnKP, globalMaxV) : 0;
+        targVL = -targVR;
+
+      }else {
+        targVL = enableL ? abscap(errorBearing*0.2, globalMaxV) : 0;
+        targVR = enableR ? -abscap(errorBearing*0.2, globalMaxV) : 0;
+      }
+
+      if(count % 10 == 0) {
+        position.print();
+        printf("\tBearing: %.5f\ttargVL: %5f", bearing*toDeg, targVL);
+      }
+    }
+
+    // ===================================================================================
+
+     // motor controller
     targAL = (targVL - prevTargVL)/dT;
     targAR = (targVR - prevTargVR)/dT;
 
@@ -232,61 +251,10 @@ void PPControl(void * ignore){
     }
 
 
-
-    }else {
-      double errorBearing = targBearing - bearing;
-      printf("errorBearing: %.2f \n", errorBearing);
-      if(enableL&&enableR) {
-        targVR = enableL ? abscap(errorBearing*turnKP, globalMaxV) : 0;
-        targVL = -targVR;
-
-      }else {
-        targVL = enableL ? abscap(errorBearing*0.2, globalMaxV) : 0;
-        targVR = enableR ? -abscap(errorBearing*0.2, globalMaxV) : 0;
-      }
-
-          // motor controller
-    targAL = (targVL - prevTargVL)/dT;
-    targAR = (targVR - prevTargVR)/dT;
-
-    // feedforward terms
-    double ffL = turnkV * targVL + turnkA * targAL;
-    double ffR = turnkV * targVR + turnkA * targAR;
-
-    // feedback terms
-    double fbL;
-    double fbR;
-
-    if(reverse) {
-      fbL = turnkP * (targVL - measuredVR);
-      fbR = turnkP * (targVR - measuredVL);
-    }else {
-      fbL = turnkP * (targVL - measuredVL);
-      fbR = turnkP * (targVR - measuredVR);
-    }
-
-        // set power
-    if(reverse) {
-      // if(count % 10 == 0) printf("PowerL: %4.2f\tPowerR: %4.2f\n", (ffR + fbR), (ffL + fbL));
-      drive((ffR + fbR), (ffL + fbL));
-    }else {
-      // if(count % 10 == 0) printf("PowerL: %4.2f\tPowerR: %4.2f\n", (ffL + fbL), (ffR + fbR));
-      drive((ffL + fbL), (ffR + fbR));
-    }
-
-
-
-      if(count % 10 == 0) {
-        position.print();
-        printf("\tBearing: %.5f\ttargVL: %5f", bearing*toDeg, targVL);
-      }
-    }
-
-    // ===================================================================================
-
     // handling prev
     prevTargVL = targVL;
     prevTargVR = targVR;
+
 
     // debugging
     if(count % 10 == 0) printf("\tTargV: %4.5f\tMeasuredV: %4.5f", targV*inPerMsToRPM, measuredV*inPerMsToRPM);

@@ -7,7 +7,7 @@
 
 double TargVel = 0; //Global Variable
 double Kp, Kd, Ki, Kf;
-bool FWSwitch = false;
+bool FWSwitch = true;
 
 
 void MoveFW(double p_TargVel, double p_Kf, double p_Kp, double p_Kd, double p_Ki){
@@ -67,6 +67,16 @@ void FWCtrl(void *ignore)
 
 		
     delay(30);
+    }
+}
+
+void Shoot(int count, int timer){
+    ADIDigitalOut Indexer(indexerPort);
+    for(int i = 0; i < count; i++){
+        Indexer.set_value(HIGH);
+        delay(50);
+        Indexer.set_value(LOW);
+        delay(timer);
     }
 }
 

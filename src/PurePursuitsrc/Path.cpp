@@ -2,8 +2,8 @@
 
 double k = 0.017;
 
-double maxRPMV = 5000;
-double maxRPMA = 1.37;
+double maxRPMV = 600;
+double maxRPMA = 1.27;
 
 double globalMaxV = maxRPMV * RPMToInPerMs;
 double globalMaxA = maxRPMA * RPMToInPerMs;
@@ -11,6 +11,12 @@ double globalMaxA = maxRPMA * RPMToInPerMs;
 void setMaxRPMV(double rpm) {
   maxRPMV = rpm;
   globalMaxV = maxRPMV * RPMToInPerMs;
+}
+
+void setMaxRPMA(double rpmA){
+  maxRPMA = rpmA;
+  globalMaxA = maxRPMA * RPMToInPerMs;
+
 }
 
 Path::Path(): wps{}

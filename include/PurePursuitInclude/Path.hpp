@@ -9,7 +9,7 @@
 #define RPMToInPerMs 1/60/1000*360*inPerDeg
 #define inPerMsToRPM 1/inPerDeg*1000*60/360
 // #define MAXRPMV 500.0
-// #define MAXRPMA 1.0
+extern double MAXRPMA;
 //
 #define voltageToPower 127/12000
 // #define globalMaxV MAXRPMV * RPMToInPerMs
@@ -26,6 +26,7 @@ extern double globalMaxV, globalMaxA;
 // #define K 1
 
 void setMaxRPMV(double rpm);
+void setMaxRPMA(double rpmA);
 class Path{
 private:
   std::vector<Node> wps;

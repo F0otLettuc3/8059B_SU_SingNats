@@ -18,7 +18,7 @@
 #define encdVPort 1
 #define encdLPort 3
 #define imuPort 10
-#define FWEncPort 1
+#define FWEncPort 12
 #define indexerPort 7
 
 

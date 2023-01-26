@@ -25,7 +25,7 @@ void initialize()
 	// Tasks
 	Task sensorTask(sensors, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Sensor Task");
 	Task FWCtrlTask(FWCtrl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Flywheel Task");
-	Task debugTask(Debug, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Debug Task");
+	// Task debugTask(Debug, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Debug Task");
 	Task odometryTask(Odometry, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
 	Task controlTask(PPControl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
 	
@@ -46,45 +46,97 @@ void autonomous()
 	Motor BRD(BRDPort);
 	Motor FW(FWPort);
 	Motor Intake(intakePort);
+	ADIDigitalOut piston(indexerPort);
+
 
 	// Tasks
 	Task odometryTask(Odometry, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
 	Task controlTask(PPControl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
 	double smooth = 0.75;
+	double FWSwitch = true;
 	// Enable Base
 	enableBase(true, true);
 
-	// Skills
-	// First Roller
-	baseMove(-5);
-	waitPP(700);
-	Intake.move(100);
-	delay(300);
-	Intake.move(0);
-	delay(50);
+	baseMove(35);
 
-	// Second Roller
-	basePP({position, Node(10, 15)}, 1 - smooth, smooth, 12);
-	waitPP(2000);
-	Intake.move(127);
-	baseTurn(90);
-	waitTurn(2000);
-	baseMove(-35);
-	waitPP(2000);
-	Intake.move(0);
-	// delay(300);
-	// drive(30, 30);
-	// Intake.move(100);
-	// delay(700);
-	// Intake.move(0);
-	// drive(0, 0);
+	// // Skills
+		// // First Roller
+		// baseMove(-5);
+		// waitPP(700);
+		// Intake.move(100);
+		// delay(300);
+		// Intake.move(0);
+		// delay(50);
 
-	// Triple Shot
-	basePP({position, Node(-18, 75)}, 1 - smooth, smooth, 12);
-	waitPP(3000);
+		// // Second Roller
+		// basePP({position, Node(14, 15)}, 1 - smooth, smooth, 12);
+		// waitPP(2000);
+		// Intake.move(127);
+		// baseTurn(90);
+		// waitTurn(1000);
+		// baseMove(-34);
+		// waitPP(2000);
+		// delay(300);
+		// drive(30, 30);
+		// Intake.move(100);
+		// delay(300);
+		// Intake.move(0);
+		// drive(0, 0);
 
-	//
+		// //First 3 Discs
+		// MoveFW(3020, 0.033677777777777777777778, 0.009, 0.00024395, 0.0000090625);
+		// basePP({position, Node(-25.5, 75)}, 1 - smooth, smooth, 7);
+		// waitPP(3000);
+		// delay(500);
+		// baseTurn(8);
+		// waitTurn(700);
+		// Shoot(3,250);
+
+		// //4th - 6th Disc
+		// Intake.move(127);
+		// baseTurn(-93);
+		// waitTurn(900);
+		// baseMove(-32);
+
+	//blue 1
+		// First Roller
+		printf("start");
+		MoveFW(3550, 0.0317777777777777777777777777778, 0.0525, 0.01, 0.001); 		
+		baseMove(-1.6);
+		waitPP(500);
+		Intake.move(100);
+		delay(250);
+		Intake.move(0);
+		
+		//Discs
+		baseMove(13.5);
+		waitPP(1200);
+		baseTurn(-17);
+		waitTurn(1000);
+		delay(250);
+		Shoot(2,1350);
+
+		//Move Forward
+		Intake.move(-110);
+		baseMove(-8);
+		waitPP(1200);
+		setMaxRPMA(0.5);
+		baseTurn(-125, 0.020);
+		waitTurn(1550);
+		baseMove(-25);
+		waitPP(3000);
+		setMaxRPMA(0.05);
+		Intake.move(110);
+		baseMove(-32);
+		waitPP(1500);
+		baseTurn(-35);
+		waitTurn(1000);
+		MoveFW(3415, 0.03127777777777777777777777777778, 0.075 ,0.02, 0.00001 ); // middle weird shot for auton
+		Shoot(3,650);
+
+
 }
+
 
 void opcontrol()
 {
@@ -143,54 +195,22 @@ void opcontrol()
 			FWSwitch = !FWSwitch;
 		}
 
-		if (FWSwitch)
-		{
-			MoveFW(2985, 0.035078, 0.035, 0.00025, 0.000007); // Triple
-			// MoveFW(3537, 0.034389, 0.029, 0.0019, 0.00002); //lONG SHOT
-			// MoveFW(3314); //Middle Shots
-
-			// printf("i luv lulu tan\n");
-		}
-		else if (FWSwitch == false)
-		{
-			FW.move(0);
-		}
+		if (FWSwitch){
+			MoveFW(3020, 0.033677777777777777777778, 0.009, 0.00024395, 0.0000090625);
+			// MoveFW(3425, 0.03127777777777777777777777777778, 0.075 ,0.02, 0.00001 ); // middle weird shot for auton
+			}
+		else{FW.move(0);}
 
 		// MoveFW(3570, 0.02535, 0.001661, 0.00001); Long Shot
 		// MoveFW(3310); Middle Shots
 
 		// Triple Shot
-		if (Master.get_digital_new_press(DIGITAL_R2))
-		{
-			printf("Shot\n");
-			piston.set_value(HIGH);
-			delay(50);
-			piston.set_value(LOW);
-			delay(400);
-			printf("Shot\n");
-			piston.set_value(HIGH);
-			delay(50);
-			piston.set_value(LOW);
-			delay(400);
-			printf("Shot\n");
-			piston.set_value(HIGH);
-			delay(50);
-			piston.set_value(LOW);
-		}
+		if (Master.get_digital_new_press(DIGITAL_R2)){Shoot(3,700);}
 
 		// Intake
-		if (Master.get_digital(DIGITAL_L1))
-		{
-			Intake.move(127);
-		}
-		else if (Master.get_digital(DIGITAL_L2))
-		{
-			Intake.move(-127);
-		}
-		else
-		{
-			Intake.move(0);
-		}
+		if(Master.get_digital(DIGITAL_L1)){Intake.move(127);}
+		else if(Master.get_digital(DIGITAL_L2)){Intake.move(-127);}
+		else{Intake.move(0);}
 		delay(10);
 	}
 }
