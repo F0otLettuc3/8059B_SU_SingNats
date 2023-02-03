@@ -1,7 +1,7 @@
 #ifndef _PP_CONTROL_HPP_
 #define _PP_CONTROL_HPP_
-#define TURN_LEEWAY 1
-#define LEEWAY 1.5
+#define TURN_LEEWAY 0.5
+#define LEEWAY 1
 #define DEFAULT_W_SMOOTH 0.75
 #define DEFAULT_W_DATA 1-DEFAULT_W_SMOOTH
 #define DEFAULT_LOOK_AHEAD 24

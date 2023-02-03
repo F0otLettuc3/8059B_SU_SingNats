@@ -1,8 +1,8 @@
 #include "main.h"
-#define kV 1642
-#define kA 9950
-#define kP 950
-#define DEFAULT_TURN_KP 0.0422
+#define kV 2542
+#define kA 22550
+#define kP 1050
+#define DEFAULT_TURN_KP 0.0446
 
 // #define kA 50000
 // #define kP 1000
@@ -123,7 +123,7 @@ void PPControl(void * ignore){
   // unit: in/ms^2
   double targAL = 0, targAR = 0;
 
-  int count = 1;
+  int count = 0;
 
   while(competition::is_autonomous()){
     if(count % 10 == 0) printf("status: %s\t", (enablePP? "enabled": "disabled"));
@@ -196,17 +196,21 @@ void PPControl(void * ignore){
       targV = targVClosest;
       targV = targV + abscap(targVClosest, globalMaxA);
 
-      targVL = targV*(2 - moveCurvature*2*R_DIS)/2;
-      targVR = targV*(2 + moveCurvature*2*R_DIS)/2;
+      targVL = targV*(2 + moveCurvature*2*L_DIS)/2;
+      targVR = targV*(2 - moveCurvature*2*L_DIS)/2;
       if(count % 10 == 0) printf("\tMove Curvature: %.5f", moveCurvature*1000);
 
 
     }else {
+      double prevErrorBearing;
       double errorBearing = targBearing - bearing;
-      printf("errorBearing: %.2f \n", errorBearing);
+      double deltaErrorBearing = errorBearing - prevErrorBearing;
+      double kd = 0.011;
+      // printf("errorBearing: %.2f \n", errorBearing);
       if(enableL&&enableR) {
-        targVR = enableL ? abscap(errorBearing*turnKP, globalMaxV) : 0;
-        targVL = -targVR;
+        targVL = enableL ? abscap(errorBearing*turnKP + deltaErrorBearing*kd, globalMaxV) : 0;
+        targVR = -targVL;
+        prevErrorBearing = errorBearing;
 
       }else {
         targVL = enableL ? abscap(errorBearing*0.2, globalMaxV) : 0;

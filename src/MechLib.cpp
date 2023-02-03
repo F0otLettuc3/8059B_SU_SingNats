@@ -70,9 +70,23 @@ void FWCtrl(void *ignore)
     }
 }
 
-void Shoot(int count, int timer){
+// void ShootController(void*ignore){
+//     ADIDigitalOut Indexer(indexerPort);
+//     int count, timer;
+//      for(int i = 0; i < count; i++){
+//         Indexer.set_value(HIGH);
+//         delay(50);
+//         Indexer.set_value(LOW);
+//         delay(timer);
+//     }
+// }
+
+
+void Shoot(int p_count, int p_timer){
     ADIDigitalOut Indexer(indexerPort);
-    for(int i = 0; i < count; i++){
+    int count = p_count;
+    int timer = p_timer;
+        for(int i = 0; i < count; i++){
         Indexer.set_value(HIGH);
         delay(50);
         Indexer.set_value(LOW);

@@ -8,11 +8,12 @@ void Odometry(void * ignore){
   /** D loop variables */
   double prevEncdV = 0, prevEncdL = 0, prevBearing = bearing;
   int count = 0;
-  while(!COMPETITION_MODE || competition::is_autonomous()){
+  while(true){
     // Amount moved by robot
     double encdChangeV = encdV-prevEncdV;
     double encdChangeL = encdL-prevEncdL;
     double bearingChange = bearing - prevBearing;
+    // printf("bearingChange %2f \n", bearingChange);
 
     // Update prev variables
 		prevEncdV = encdV;
@@ -22,7 +23,8 @@ void Odometry(void * ignore){
     // Calculate local offset
     Node localOffset;
     if(bearingChange) {
-      localOffset = Node(encdChangeL/bearingChange + S_DIS, encdChangeV/bearingChange + R_DIS) * 2*sin(bearingChange/2);
+      // printf("hello");
+      localOffset = Node(encdChangeL/bearingChange + L_DIS, encdChangeV/bearingChange + V_DIS) * 2*sin(bearingChange/2);
     }else {
       localOffset = Node(encdChangeL, encdChangeV);
     }
@@ -34,7 +36,7 @@ void Odometry(void * ignore){
     position = position + rotatedOffset;
 
 
-    master.print(2, 0, "%.2f, %.2f, %.2f          ", position.getX(), position.getY(), bearing/toRad);
+    master.print(2, 0, ": %.2f, : %.2f, %.2f          ", position.getX(), position.getY(), bearing/toRad);
 
     Task::delay(dT);
   }

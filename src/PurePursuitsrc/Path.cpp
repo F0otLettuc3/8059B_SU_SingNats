@@ -3,7 +3,7 @@
 double k = 0.017;
 
 double maxRPMV = 600;
-double maxRPMA = 1.27;
+double maxRPMA = 1.55;
 
 double globalMaxV = maxRPMV * RPMToInPerMs;
 double globalMaxA = maxRPMA * RPMToInPerMs;

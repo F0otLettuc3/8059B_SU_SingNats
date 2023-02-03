@@ -2,14 +2,14 @@
 #define _GLOBALS_HPP_
 
 // Motor ports
-#define FLPort 9
-#define BLUPort 5
-#define BLDPort 4
-#define FRPort 8
-#define BRUPort 2
-#define BRDPort 3
+#define FLPort 8
+#define BLUPort 2
+#define BLDPort 3
+#define FRPort 9
+#define BRUPort 5
+#define BRDPort 4
 #define FWPort 7
-#define intakePort 6
+#define intakePort 1
 
 
 // Sensor ports
@@ -20,6 +20,7 @@
 #define imuPort 10
 #define FWEncPort 12
 #define indexerPort 7
+#define intakePiston 8
 
 
 
