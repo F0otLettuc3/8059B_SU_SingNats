@@ -36,8 +36,14 @@ void Odometry(void * ignore){
     position = position + rotatedOffset;
 
 
-    master.print(2, 0, ": %.2f, : %.2f, %.2f          ", position.getX(), position.getY(), bearing/toRad);
+    master.print(2, 0, "%.2f, %.2f, %.2f          ", position.getX(), position.getY(), bearing/toRad);
 
     Task::delay(dT);
   }
+}
+
+void resetCoords(){
+  printf("reset coords");
+  Node rotatedOffset = Node(0,0);
+  bearing = 0;
 }

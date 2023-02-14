@@ -2,7 +2,7 @@
 
 double k = 0.017;
 
-double maxRPMV = 600;
+double maxRPMV = 510;
 double maxRPMA = 1.55;
 
 double globalMaxV = maxRPMV * RPMToInPerMs;
@@ -16,7 +16,6 @@ void setMaxRPMV(double rpm) {
 void setMaxRPMA(double rpmA){
   maxRPMA = rpmA;
   globalMaxA = maxRPMA * RPMToInPerMs;
-
 }
 
 Path::Path(): wps{}
@@ -96,7 +95,7 @@ void Path::calcCurvature(){
 
 void Path::calcMaxV(){
   for(int i = 0;i<n;++i){
-    // printf("MaxV: %.5f, Curve: %.5f\n", globalMaxV, K/curv[i]);
+    printf("MaxV: %.5f, Curve: %.5f\n", globalMaxV, k/curv[i]);
     maxV.push_back(std::min(globalMaxV, k/curv[i]));
   }
   // printVector(maxV);

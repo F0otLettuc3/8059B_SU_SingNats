@@ -1,4 +1,5 @@
 #include "main.h"
+#include <string>
 
 #define FWKF 0.035278 // Conversion of Velocity to Power
 #define FWKP 0.02525 // KP for FeedBack Loop 1.095 for long
@@ -7,6 +8,7 @@
 
 double TargVel = 0; //Global Variable
 double Kp, Kd, Ki, Kf;
+double redTarg, blueTarg;
 bool FWSwitch = true;
 
 
@@ -28,6 +30,7 @@ void FWCtrl(void *ignore)
 
     Motor FW(FWPort);
     Rotation FWEnc(FWEncPort);
+    Controller Master(E_CONTROLLER_MASTER);
     FWEnc.reset();
 
     double Error, PrevError, DeltaError = 0;
@@ -59,27 +62,22 @@ void FWCtrl(void *ignore)
             FW.move(Power);
             PrevError = Error;
 
+            //Calculating wattage
+            double FWAmpere = FW.get_current_draw();
+            double FWVoltage = Power > 127? Power : 127;
+            double Wattage = FWAmpere * FWVoltage;
+
             // Debugging
             printf("Error: %lf \n", Error);
             // printf("Power: %lf \n", Power);
             // printf("Velocity: %lf \n", actual_Vel);
+            // Master.print(2,0,"Wattage: %lf \n", Wattage/1000);
         }
 
 		
     delay(30);
     }
 }
-
-// void ShootController(void*ignore){
-//     ADIDigitalOut Indexer(indexerPort);
-//     int count, timer;
-//      for(int i = 0; i < count; i++){
-//         Indexer.set_value(HIGH);
-//         delay(50);
-//         Indexer.set_value(LOW);
-//         delay(timer);
-//     }
-// }
 
 
 void Shoot(int p_count, int p_timer){
@@ -94,4 +92,14 @@ void Shoot(int p_count, int p_timer){
     }
 }
 
+void Roller(int p_target){
+    Motor Intake(intakePort);
+    Optical optical(opticalPort);
+    while(optical.get_hue() <= (p_target - 20)){
+        optical.set_led_pwm(50);
+        Intake.move(100);
+        printf("Hue: %lf \n", optical.get_hue());
+    }
+
+}
 

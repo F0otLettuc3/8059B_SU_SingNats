@@ -5,3 +5,11 @@ Things to tune in PP
 >> Smooth 
 >> MaxRPMV
 >> MaxRPMA
+
+Flywheel Values
+MoveFW(3570, 0.02535, 0.001661, 0.00001); Long Shot
+MoveFW(3425, 0.03127777777777777777777777777778, 0.075 ,0.02, 0.00001 ); // middle weird shot for auton
+MoveFW(2900, 0.031677777777777777777778, 0.122, 0.024395, 0.0000090625); Corner but back (skills) shot
+
+
+

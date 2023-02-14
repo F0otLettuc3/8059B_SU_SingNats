@@ -1,8 +1,10 @@
 #include "main.h"
-#define kV 2542
-#define kA 22550
-#define kP 1050
-#define DEFAULT_TURN_KP 0.0446
+#define kV 1005 //Auton KV is 2112 
+#define kA 12700 //Auton KA is 23760
+#define kP 300 //Auton KP is 250
+#define DEFAULT_TURN_KP 0.0818
+double turnKd = 0.011;
+
 
 // #define kA 50000
 // #define kP 1000
@@ -84,12 +86,12 @@ void waitTurn(double cutoff) {
 void basePP(std::vector<Node> wps, double p_w_data, double p_w_smooth, double p_lookAhead, bool p_reverse){
   path.setWps(wps, p_w_data, p_w_smooth, p_lookAhead);
   reverse = p_reverse;
-}
+}  
 
 void baseMove(double dis) {
   std::vector<Node> straightPath = {position, position + Node(dis*sin(bearing), dis*cos(bearing))};
 
-  double smooth = 0.75;
+  double smooth = 0;
 	basePP(straightPath, 1-smooth, smooth, 14, dis < 0);
 }
 
@@ -125,7 +127,7 @@ void PPControl(void * ignore){
 
   int count = 0;
 
-  while(competition::is_autonomous()){
+  while(true){
     if(count % 10 == 0) printf("status: %s\t", (enablePP? "enabled": "disabled"));
 
     if(enablePP) {
@@ -205,10 +207,9 @@ void PPControl(void * ignore){
       double prevErrorBearing;
       double errorBearing = targBearing - bearing;
       double deltaErrorBearing = errorBearing - prevErrorBearing;
-      double kd = 0.011;
       // printf("errorBearing: %.2f \n", errorBearing);
       if(enableL&&enableR) {
-        targVL = enableL ? abscap(errorBearing*turnKP + deltaErrorBearing*kd, globalMaxV) : 0;
+        targVL = enableL ? abscap(errorBearing*turnKP + deltaErrorBearing*turnKd, globalMaxV) : 0;
         targVR = -targVL;
         prevErrorBearing = errorBearing;
 

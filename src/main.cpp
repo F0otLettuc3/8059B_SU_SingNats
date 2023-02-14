@@ -21,24 +21,30 @@ void initialize()
 	// ADIPorts
 	ADIDigitalIn limit(limitPort);
 	ADIDigitalOut indexer(indexerPort, false);
+	ADIDigitalOut expansionR(Exp1,  LOW);
+	ADIDigitalOut expansionL(Exp2, LOW);
+
 
 	// Tasks
 	Task sensorTask(sensors, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Sensor Task");
 	Task FWCtrlTask(FWCtrl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Flywheel Task");
 	// Task debugTask(Debug, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Debug Task");
 	Task odometryTask(Odometry, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
-	Task controlTask(PPControl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
+	// Task controlTask(PPControl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
+
 	
 }
 
-void disabled() {}
+void disabled() {
+	// Master.print(0,2, "Hello");
+}
 
 void competition_initialize() {}
 
 void autonomous()
 {
 
-int autoNum = 1;
+int autoNum = 2;
 
 switch(autoNum){
 	case 1: red1(); break;
@@ -47,6 +53,11 @@ switch(autoNum){
 	case 4: blue2(); break;
 	case 5: skills(); break;
 }
+
+//Red 1 is full awp
+//Red 2 is partial awp
+// Blue 1 is near roller
+
 }
 
 
@@ -63,23 +74,28 @@ void opcontrol()
 	Motor FW(FWPort);
 	Motor Intake(intakePort);
 	Controller Master(E_CONTROLLER_MASTER);
+	Controller Partner(E_CONTROLLER_PARTNER);
 	ADIDigitalOut piston(indexerPort);
+	ADIDigitalOut expansionR(Exp1);
+	ADIDigitalOut expansionL(Exp2);
+	expansionL.set_value(LOW);
+	expansionR.set_value(LOW);
+
 
 	// Initialise Pneumatic States
 	//  piston.set_value(HIGH);
 
 	// Initialise Driver States
 	bool Tank = true;
+	bool Break = false;
 	double left, right;
 	FWSwitch = false;
 
+
 	while (true)
 	{
-
-		if (Master.get_digital_new_press(DIGITAL_Y))
-		{
-			Tank = !Tank;
-		}
+		if (Master.get_digital_new_press(DIGITAL_Y)){Tank = !Tank;}
+		if (Master.get_digital_new_press(DIGITAL_DOWN)){Break =!Break;}
 
 		if (Tank)
 		{
@@ -102,30 +118,39 @@ void opcontrol()
 		BRD.move(right);
 
 		// Triple Shot
-		if (Master.get_digital_new_press(DIGITAL_R1))
-		{
-			FWSwitch = !FWSwitch;
-		}
+		if (Master.get_digital_new_press(DIGITAL_R1)){FWSwitch = !FWSwitch;}
 
 		if (FWSwitch){
-			// MoveFW(2930, 0.031677777777777777777778, 0.149, 0.0024395, 0.0000090625);
-				MoveFW(3650, 0.04, 0.25, 0.06, 0.001); 		
-
+			MoveFW(2907, 0.028677777777777777777778, 0.129, 0.0024395, 0.0000090625);
 			Master.rumble("-");
-			// MoveFW(3425, 0.03127777777777777777777777777778, 0.075 ,0.02, 0.00001 ); // middle weird shot for auton
-			}
-		else{FW.move(0);}
+			// Master.print(0,2, "Flywheel On ");
+		}
+		else{
+			FW.move(0);
+		}
 
-		// MoveFW(3570, 0.02535, 0.001661, 0.00001); Long Shot
-		// MoveFW(3310); Middle Shots
 
 		// Triple Shot
-		if (Master.get_digital_new_press(DIGITAL_R2)){Shoot(3,850);}
+		if (Master.get_digital_new_press(DIGITAL_R2)){Shoot(3,220);}
 
 		// Intake
 		if(Master.get_digital(DIGITAL_L1)){Intake.move(127);}
 		else if(Master.get_digital(DIGITAL_L2)){Intake.move(-127);}
 		else{Intake.move(0);}
+
+		//Expansion
+		if(Master.get_digital(DIGITAL_UP) && Master.get_digital(DIGITAL_DOWN)){
+			expansionL.set_value(HIGH);
+			expansionR.set_value(HIGH);
+		}
+
+		if(Partner.get_digital(DIGITAL_UP) && Partner.get_digital(DIGITAL_DOWN)){
+			expansionL.set_value(HIGH);
+			expansionR.set_value(HIGH);
+
+		}
+
+
 		delay(10);
 	}
 }

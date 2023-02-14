@@ -21,6 +21,11 @@
 #define FWEncPort 12
 #define indexerPort 7
 #define intakePiston 8
+#define opticalPort 6
+
+//Pistons
+#define Exp1 5
+#define Exp2 8
 
 
 

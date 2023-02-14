@@ -1,7 +1,7 @@
 #include "main.h"
 
 void red1 (){
-    Motor FL(FLPort);
+      Motor FL(FLPort);
 	Motor FR(FRPort);
 	Motor BLU(BLUPort);
 	Motor BLD(BLDPort);
@@ -14,68 +14,53 @@ void red1 (){
 	intakeLift.set_value(HIGH);
 
 	// Tasks
-	Task odometryTask(Odometry, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
+	// Task odometryTask(Odometry, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
 	Task controlTask(PPControl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
+	enableBase(true,true);
 	double smooth = 0.75;
 	double FWSwitch = true;
-	enableBase(true,true);
+	setMaxRPMA(1.8);
 
-	// intakeLift.set_value(HIGH);
-	FW.move(127);
-	MoveFW(3600, 0.04, 0.25, 0.06, 0.001); 		
-	baseMove(-1.4);
-	waitPP(500);	
-	Intake.move(110);
-	delay(450);
-	Intake.move(0);
-	
-	//Discs
-	baseMove(15);
-	waitPP(700);
-	delay(300);
-	baseTurn(-17,0.078);
-	waitTurn(700);
-	Shoot(2,850);
-
-	//Move Forward
-	Intake.move(127); //Triple Stack Intake
-	FW.move(0);
-	baseMove(-5);
-	waitPP(700);
-	baseTurn(-125,0.046);
-	waitTurn(1200);
-	MoveFW(3560, 0.03367777777777777777777777777778, 0.135 ,0.03, 0.00001); // middle weird shot for auton
-	baseMove(-15);
-	waitPP(900);
-	setMaxRPMA(0.016);
-	baseMove(-45);
-	waitPP(1400);
-	setMaxRPMA(3);
-	setMaxRPMV(900);
-	delay(300);	
-	baseTurn(-30);
-	waitTurn(700);
-	Shoot(3,550);
-	
-	// Final Roller
-	Intake.move(110);
-	baseTurn(-134);
-	waitTurn(1100);
-	baseMove(-97);
-	waitPP(3000);
-	baseTurn(-90);
+	Intake.move(110); 		
+	baseMove(-14);
+	waitPP(1300);
+	baseTurn(90);
 	waitTurn(1000);
-	baseMove(-9);
-	waitPP(1000);
-	delay(150);
+	baseMove(-3);
+	waitPP(400);	
 	Intake.move(0);
-
-
+	baseMove(3);
+	Intake.move(127);
+	MoveFW(3500, 0.039278, 1.8 ,0.50, 0.00001); // middle weird shot for auton
+	waitPP(1000);
+	baseTurn(225);
+	waitTurn(1200);
+	baseMove(-28);
+	waitPP(1700);
+	baseTurn(106);
+	waitTurn(1100);
+	Shoot(1,600);
+	Shoot(1,600);
+	Shoot(1,100);
+	baseTurn(220);
+	waitTurn(800);
+	baseMove(-28);
+	waitPP(1500);
+	baseTurn(48);
+	waitTurn(1000);
+	baseMove(68);
+	waitPP(1800);    
+	Intake.move(40);
+	baseTurn(180);
+	waitTurn(1000);
+	baseMove(-10);
+	waitPP(700);	
+	controlTask.suspend();
 }
 
 
 
-void red2 (){
+void  red2 (){
     Motor FL(FLPort);
 	Motor FR(FRPort);
 	Motor BLU(BLUPort);
@@ -87,23 +72,48 @@ void red2 (){
 	ADIDigitalOut piston(indexerPort);
 
 	// Tasks
-	Task odometryTask(Odometry, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
-	Task controlTask(PPControl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
-	double smooth = 0.85;
-	double FWSwitch = true;
-	printf("start");
+	// Task odometryTask(Odometry, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
+		Task controlTask(PPControl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
 	enableBase(true,true);
+	double smooth = 0.75;
+	double FWSwitch = true;
+	setMaxRPMA(1.8);
 
-
-	basePP({position, Node(-30,30)}, 1-smooth, smooth, 14);
-	// baseTurn(90);
-	// waitTurn(1000);
-	// baseMove(30);
-	// baseMove(30);
+	Intake.move(110); 		
+	baseMove(-14);
+	waitPP(1300);
+	baseTurn(90);
+	waitTurn(1000);
+	baseMove(-3.5);
+	waitPP(400);	
+	Intake.move(0);
+	baseMove(3);
+	Intake.move(127);
+	MoveFW(3475, 0.039278, 1.65 ,0.50, 0.00001); // middle weird shot for auton
 	waitPP(1000);
-
-
-
+	baseTurn(225);
+	waitTurn(1200);
+	baseMove(-28);
+	waitPP(1700);
+	baseTurn(106);
+	waitTurn(1100);
+	Shoot(1,600);
+	Shoot(1,600);
+	Shoot(1,100);
+	// baseTurn(220);
+	// waitTurn(800);
+	// baseMove(-28);
+	// waitPP(1500);
+	// baseTurn(48);
+	// waitTurn(1000);
+	// baseMove(68);
+	// waitPP(1800);    
+	// Intake.move(40);
+	// baseTurn(180);
+	// waitTurn(1000);
+	// baseMove(-10);
+	// waitPP(700);	
+	controlTask.suspend();
 
 }
 
@@ -122,57 +132,20 @@ void blue1 (){
 	ADIDigitalOut intakeLift(intakePiston);
 
 	// Tasks
-	Task odometryTask(Odometry, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
 	Task controlTask(PPControl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
 	double smooth = 0.75;
 	double FWSwitch = true;
-
-	// First Roller
 	enableBase(true,true);
-	printf("start");
-	intakeLift.set_value(HIGH);
-	MoveFW(3530, 0.0317777777777777777777777777778, 0.0525, 0.01, 0.001); 		
+	Intake.move(70);
 	baseMove(-3);
-	waitPP(500);
-	Intake.move(100);
-	delay(250);
+	waitPP(400);   
+	delay(100);
 	Intake.move(0);
-	
-	//Discs
-	baseMove(13.5);
-	waitPP(1200);
-	baseTurn(-19);
-	waitTurn(1000);
-	delay(250);
-	Shoot(2,1350);
+	delay(50);
+	baseMove(3);
+	waitPP(400);
+	controlTask.suspend();	
 
-	//Move Forward
-	intakeLift.set_value(LOW);
-	Intake.move(127);
-	baseMove(-8);
-	waitPP(1200);
-	// setMaxRPMA(0.5);
-	// baseTurn(-123, 0.020);
-	// waitTurn(1550);
-	// baseMove(-20);
-	// waitPP(3000);
-	// intakeLift.set_value(HIGH); 
-	// delay(1900);
-	// baseTurn(-30,0.022);
-	// waitTurn(1500); 
-	// MoveFW(3475, 0.03127777777777777777777777777778, 0.075 ,0.02, 0.00001); // middle weird shot for auton
-	// Shoot(3,650);
-	// printf("time: %.2f", start);
-
-	// Final Roller
-	FW.move(0);
-	Intake.move(127);
-	basePP({position, Node(80,95)}, 1- smooth, smooth, 12);
-	waitPP(7000);
-	baseTurn(-90);
-	waitTurn(2000);
-	baseMove(-5);
-	waitPP(1000);
 }
 
 void blue2 (){
@@ -187,10 +160,22 @@ void blue2 (){
 	ADIDigitalOut piston(indexerPort);
       
 	// Tasks
-	Task odometryTask(Odometry, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
 	Task controlTask(PPControl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
 	double smooth = 0.75;
 	double FWSwitch = true;
+	enableBase(true,true);
+
+	baseMove(-15);
+	Intake.move(110);
+	waitPP(1000);
+	baseTurn(90);
+	waitTurn(1000);
+	baseMove(-5);
+	waitPP(1000);
+	delay(50);
+	Intake.move(0);
+	baseMove(5);
+	waitPP(1000);
 }
 
 
@@ -204,51 +189,106 @@ void skills (){
 	Motor FW(FWPort);
 	Motor Intake(intakePort);
 	ADIDigitalOut piston(indexerPort);
+	ADIDigitalOut expansionR(Exp1);
+	ADIDigitalOut expansionL(Exp2);
 
 	// Tasks
-	Task odometryTask(Odometry, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
+	// Task odometryTask(Odometry, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
 	Task controlTask(PPControl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
-	double smooth = 0.75;
+	double smooth = 0.86;
 	double FWSwitch = true;
 	enableBase(true,true);
-
+	setMaxRPMA(1.48);
+	
     // Skills
     // First Roller
-	baseMove(-5);
-	waitPP(700);   
-    Intake.move(100);
-	delay(300);
+	Intake.move(100);
+	baseMove(-3);
+	waitPP(400);   
+	delay(100);
 	Intake.move(0);
 	delay(50);
 
 	// Second Roller
-	basePP({position, Node(14, 15)}, 1 - smooth, smooth, 12);
-	waitPP(1000);
+	basePP({position, Node(10, 10)}, 1 - smooth, smooth, 3);
+	waitPP(700);
 	Intake.move(127);
 	baseTurn(90);
-	waitTurn(1000);
-	baseMove(-34);
-	waitPP(2000);
-	delay(300);
-	drive(30, 30);
-	Intake.move(100);
-	delay(300);
+	waitTurn(700);
+	baseMove(-36.5);
+	waitPP(1600);
+	delay(50);
 	Intake.move(0);
-	drive(0, 0);
+
 
 	//First 3 Discs
-	MoveFW(2960, 0.033677777777777777777778, 0.009, 0.00024395, 0.0000090625);
-	basePP({position, Node(-25.5, 75)}, 1 - smooth, smooth, 7);
-	waitPP(3000);
-	delay(500);
-	baseTurn(8);
-	waitTurn(700);
-	Shoot(3,250);
+	MoveFW(2907, 0.028677777777777777777778, 0.129, 0.0024395, 0.0000090625);
+	baseMove(4);
+	waitPP(300);
+	baseTurn(0);
+	waitTurn(600);
+	baseMove(60);
+	waitPP(2000);
+	// baseTurn(10,0.05);
+	// waitTurn(1000);
+	Shoot(3,300);
 
 	//4th - 6th Disc
+	MoveFW(0);
 	Intake.move(127);
-	baseTurn(-93);
+	waitPP(300);
+	baseTurn(-41);
 	waitTurn(900);
-	baseMove(-32);
+	baseMove(-34);
+	waitPP(1500);
+	setMaxRPMA(1);
+	baseTurn(-142);
+	waitTurn(1000);
+	MoveFW(2900, 0.031677777777777777777778, 0.122, 0.024395, 0.0000090625); //Corner but back (skills) shot
+	baseMove(-40);
+	waitPP(1200);
+	baseTurn(-51);
+	waitTurn(1000);
+	Shoot(3,300);
 
+	//7th - 9th Disc
+	Intake.move(-115);
+	baseTurn(-139);
+	waitTurn(1500);
+	setMaxRPMA(1.48);
+	MoveFW(2907, 0.028677777777777777777778, 0.129, 0.0024395, 0.0000090625);
+	baseMove(-30);
+	waitPP(2000);
+	setMaxRPMA(0.1);
+	Intake.move(127);
+	baseMove(-25);
+	waitPP(1500);
+	setMaxRPMA(1.48);
+	baseTurn(-90);
+	waitTurn(1000);
+	baseMove(30);
+	waitPP(2000);
+	Intake.move(100);
+	baseTurn(-75);
+	waitTurn(700);
+	Shoot(3,250);
+	baseTurn(-90);
+	waitTurn(500);
+	baseMove(-60);
+	waitPP(4000);
+	delay(30);
+	Intake.move(80);
+	baseTurn(180);
+	baseMove(-27);
+	waitPP(1000);
+	Intake.move(0);
+	baseMove(25);
+	waitPP(1000);
+	baseTurn(-135);
+	waitTurn(1000);
+	baseMove(-10);
+	waitPP(1000);
+	expansionL.set_value(HIGH);
+	expansionR.set_value(HIGH);
+	
 }
