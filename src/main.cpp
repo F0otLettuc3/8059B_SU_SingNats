@@ -121,7 +121,7 @@ void opcontrol()
 		if (Master.get_digital_new_press(DIGITAL_R1)){FWSwitch = !FWSwitch;}
 
 		if (FWSwitch){
-			MoveFW(2907, 0.028677777777777777777778, 0.129, 0.0024395, 0.0000090625);
+			moveFW(3145, 0.03, 0.035, 0.01, 0.000001);
 			Master.rumble("-");
 			// Master.print(0,2, "Flywheel On ");
 		}
@@ -131,7 +131,7 @@ void opcontrol()
 
 
 		// Triple Shot
-		if (Master.get_digital_new_press(DIGITAL_R2)){Shoot(3,220);}
+		if (Master.get_digital_new_press(DIGITAL_R2)){Shoot(3,280);}
 
 		// Intake
 		if(Master.get_digital(DIGITAL_L1)){Intake.move(127);}

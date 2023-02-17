@@ -2,26 +2,26 @@
 #include <string>
 
 #define FWKF 0.035278 // Conversion of Velocity to Power
-#define FWKP 0.02525 // KP for FeedBack Loop 1.095 for long
-#define FWKD 0.001652 //0.085  // KD for FeedBack Loop 0.250
-#define FWKI 0.00001 //0.0042 //DO NOT TOUCH KI
+#define FWKP 0 // KP for FeedBack Loop 1.095 for long
+#define FWKD 0 //0.085  // KD for FeedBack Loop 0.250
+#define FWKI 0 //0.0042 //DO NOT TOUCH KI
 
-double TargVel = 0; //Global Variable
+double targVel = 0; //Global Variable
 double Kp, Kd, Ki, Kf;
 double redTarg, blueTarg;
 bool FWSwitch = true;
 
 
-void MoveFW(double p_TargVel, double p_Kf, double p_Kp, double p_Kd, double p_Ki){
-    TargVel = p_TargVel;
+void moveFW(double p_TargVel, double p_Kf, double p_Kp, double p_Kd, double p_Ki){
+    targVel = p_TargVel;
     Kf = p_Kf;
     Kp = p_Kp;
     Kd = p_Kd;
     Ki = p_Ki;
 }
 
-void MoveFW(double p_TargVel){
-    MoveFW(p_TargVel, FWKF, FWKP, FWKD, FWKI);
+void moveFW(double p_TargVel){
+    moveFW(p_TargVel, FWKF, FWKP, FWKD, FWKI);
 }
 
 
@@ -33,7 +33,7 @@ void FWCtrl(void *ignore)
     Controller Master(E_CONTROLLER_MASTER);
     FWEnc.reset();
 
-    double Error, PrevError, DeltaError = 0;
+    double error, prevError, deltaError, integral = 0;
     double Power = 0;
 
     while (true){
@@ -44,23 +44,19 @@ void FWCtrl(void *ignore)
             
 
             // FeedForward Component
-            Power = TargVel * Kf;
+            Power = targVel * Kf;
             
             // FeedBack Component
-            Error = TargVel - actual_Vel;
-            double Integral = Integral + Error;
-            if(Error == 0){
-                Integral = 0;
-            }
-            if(fabs(Error) > 25){
-                Integral = 0;
-            }
-            DeltaError = Error - PrevError;
+            error = targVel - actual_Vel;
+            integral += error;
+            if(error == 0){integral = 0;}
+            if(fabs(error) > 25){integral = 0;}
+            deltaError = error - prevError;
 
             // Power Allocation
-            Power += Error * Kp + Integral* Ki + DeltaError * Kd;
+            Power += error * Kp + integral* Ki + deltaError * Kd;
             FW.move(Power);
-            PrevError = Error;
+            prevError = error;
 
             //Calculating wattage
             double FWAmpere = FW.get_current_draw();
@@ -68,7 +64,7 @@ void FWCtrl(void *ignore)
             double Wattage = FWAmpere * FWVoltage;
 
             // Debugging
-            printf("Error: %lf \n", Error);
+            printf("Error: %lf \n", error);
             // printf("Power: %lf \n", Power);
             // printf("Velocity: %lf \n", actual_Vel);
             // Master.print(2,0,"Wattage: %lf \n", Wattage/1000);

@@ -31,7 +31,7 @@ void red1 (){
 	Intake.move(0);
 	baseMove(3);
 	Intake.move(127);
-	MoveFW(3500, 0.039278, 1.8 ,0.50, 0.00001); // middle weird shot for auton
+	moveFW(3500, 0.039278, 1.8 ,0.50, 0.00001); // middle weird shot for auton
 	waitPP(1000);
 	baseTurn(225);
 	waitTurn(1200);
@@ -89,7 +89,7 @@ void  red2 (){
 	Intake.move(0);
 	baseMove(3);
 	Intake.move(127);
-	MoveFW(3475, 0.039278, 1.65 ,0.50, 0.00001); // middle weird shot for auton
+	moveFW(3475, 0.039278, 1.65 ,0.50, 0.00001); // middle weird shot for auton
 	waitPP(1000);
 	baseTurn(225);
 	waitTurn(1200);
@@ -222,7 +222,7 @@ void skills (){
 
 
 	//First 3 Discs
-	MoveFW(2907, 0.028677777777777777777778, 0.129, 0.0024395, 0.0000090625);
+	moveFW(2907, 0.028677777777777777777778, 0.129, 0.0024395, 0.0000090625);
 	baseMove(4);
 	waitPP(300);
 	baseTurn(0);
@@ -234,7 +234,7 @@ void skills (){
 	Shoot(3,300);
 
 	//4th - 6th Disc
-	MoveFW(0);
+	moveFW(0);
 	Intake.move(127);
 	waitPP(300);
 	baseTurn(-41);
@@ -244,7 +244,7 @@ void skills (){
 	setMaxRPMA(1);
 	baseTurn(-142);
 	waitTurn(1000);
-	MoveFW(2900, 0.031677777777777777777778, 0.122, 0.024395, 0.0000090625); //Corner but back (skills) shot
+	moveFW(2900, 0.031677777777777777777778, 0.122, 0.024395, 0.0000090625); //Corner but back (skills) shot
 	baseMove(-40);
 	waitPP(1200);
 	baseTurn(-51);
@@ -256,7 +256,7 @@ void skills (){
 	baseTurn(-139);
 	waitTurn(1500);
 	setMaxRPMA(1.48);
-	MoveFW(2907, 0.028677777777777777777778, 0.129, 0.0024395, 0.0000090625);
+	moveFW(2907, 0.028677777777777777777778, 0.129, 0.0024395, 0.0000090625);
 	baseMove(-30);
 	waitPP(2000);
 	setMaxRPMA(0.1);
