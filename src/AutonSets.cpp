@@ -73,7 +73,7 @@ void  red2 (){
 
 	// Tasks
 	// Task odometryTask(Odometry, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
-		Task controlTask(PPControl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
+	Task controlTask(PPControl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
 	enableBase(true,true);
 	double smooth = 0.75;
 	double FWSwitch = true;
@@ -136,15 +136,8 @@ void blue1 (){
 	double smooth = 0.75;
 	double FWSwitch = true;
 	enableBase(true,true);
-	Intake.move(70);
-	baseMove(-3);
-	waitPP(400);   
-	delay(100);
-	Intake.move(0);
-	delay(50);
-	baseMove(3);
-	waitPP(400);
-	controlTask.suspend();	
+	setMaxRPMA(1.5);
+	baseMove(40);
 
 }
 

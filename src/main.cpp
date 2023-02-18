@@ -44,7 +44,7 @@ void competition_initialize() {}
 void autonomous()
 {
 
-int autoNum = 2;
+int autoNum = 3;
 
 switch(autoNum){
 	case 1: red1(); break;
@@ -121,7 +121,7 @@ void opcontrol()
 		if (Master.get_digital_new_press(DIGITAL_R1)){FWSwitch = !FWSwitch;}
 
 		if (FWSwitch){
-			moveFW(3145, 0.03, 0.035, 0.01, 0.000001);
+			moveFW(3145, 0.0307, 0.2125, 0.009, 0.00001);
 			Master.rumble("-");
 			// Master.print(0,2, "Flywheel On ");
 		}
@@ -131,7 +131,7 @@ void opcontrol()
 
 
 		// Triple Shot
-		if (Master.get_digital_new_press(DIGITAL_R2)){Shoot(3,280);}
+		if (Master.get_digital_new_press(DIGITAL_R2)){Shoot(3,230);}
 
 		// Intake
 		if(Master.get_digital(DIGITAL_L1)){Intake.move(127);}
