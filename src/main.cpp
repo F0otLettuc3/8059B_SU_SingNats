@@ -44,7 +44,7 @@ void competition_initialize() {}
 void autonomous()
 {
 
-int autoNum = 3;
+int autoNum = 4;
 
 switch(autoNum){
 	case 1: red1(); break;
