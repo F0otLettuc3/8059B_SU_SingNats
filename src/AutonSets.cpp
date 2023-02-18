@@ -137,7 +137,8 @@ void blue1 (){
 	double FWSwitch = true;
 	enableBase(true,true);
 	setMaxRPMA(1.5);
-	baseMove(40);
+	// baseMove(40);
+	baseTurn(-90);
 
 }
 
@@ -195,7 +196,7 @@ void skills (){
 	
     // Skills
     // First Roller
-	Intake.move(100);
+	Intake.move(80);
 	baseMove(-3);
 	waitPP(400);   
 	delay(100);
@@ -205,17 +206,17 @@ void skills (){
 	// Second Roller
 	basePP({position, Node(10, 10)}, 1 - smooth, smooth, 3);
 	waitPP(700);
-	Intake.move(127);
+	Intake.move(110);
 	baseTurn(90);
 	waitTurn(700);
-	baseMove(-36.5);
+	baseMove(-33);
 	waitPP(1600);
 	delay(50);
 	Intake.move(0);
 
 
 	//First 3 Discs
-	moveFW(2907, 0.028677777777777777777778, 0.129, 0.0024395, 0.0000090625);
+	moveFW(3145, 0.0307, 0.2125, 0.009, 0.00001);
 	baseMove(4);
 	waitPP(300);
 	baseTurn(0);
@@ -235,53 +236,33 @@ void skills (){
 	baseMove(-34);
 	waitPP(1500);
 	setMaxRPMA(1);
-	baseTurn(-142);
+	baseTurn(-140);
 	waitTurn(1000);
-	moveFW(2900, 0.031677777777777777777778, 0.122, 0.024395, 0.0000090625); //Corner but back (skills) shot
-	baseMove(-40);
-	waitPP(1200);
-	baseTurn(-51);
+	moveFW(3145, 0.0307, 0.2125, 0.009, 0.00001);
+	baseMove(-33);
+	waitPP(1400);
+	baseTurn(-45);
 	waitTurn(1000);
-	Shoot(3,300);
+	Shoot(3,350);
 
-	//7th - 9th Disc
-	Intake.move(-115);
-	baseTurn(-139);
-	waitTurn(1500);
-	setMaxRPMA(1.48);
-	moveFW(2907, 0.028677777777777777777778, 0.129, 0.0024395, 0.0000090625);
-	baseMove(-30);
-	waitPP(2000);
-	setMaxRPMA(0.1);
-	Intake.move(127);
-	baseMove(-25);
-	waitPP(1500);
-	setMaxRPMA(1.48);
-	baseTurn(-90);
-	waitTurn(1000);
-	baseMove(30);
-	waitPP(2000);
-	Intake.move(100);
-	baseTurn(-75);
-	waitTurn(700);
-	Shoot(3,250);
-	baseTurn(-90);
-	waitTurn(500);
-	baseMove(-60);
-	waitPP(4000);
-	delay(30);
-	Intake.move(80);
-	baseTurn(180);
-	baseMove(-27);
-	waitPP(1000);
-	Intake.move(0);
-	baseMove(25);
-	waitPP(1000);
+	//7th and 8th disc
+	baseMove(-20);
+	waitPP(1200);
 	baseTurn(-135);
 	waitTurn(1000);
-	baseMove(-10);
+	Intake.move(127);
+	baseMove(-30);
+	waitPP(1700);
+	baseTurn(-15);
+	waitTurn(1000);
+	baseMove(45);
+	waitPP(1600);
+	baseTurn(-87);
+	waitTurn(1500);
+	baseMove(10);
 	waitPP(1000);
-	expansionL.set_value(HIGH);
-	expansionR.set_value(HIGH);
+	baseTurn(92);
+	waitTurn(1000);
+	
 	
 }

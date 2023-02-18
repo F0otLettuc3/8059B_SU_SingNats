@@ -1,8 +1,8 @@
 #include "main.h"
-#define kV 1005 //Auton KV is 2112 
-#define kA 12700 //Auton KA is 23760
-#define kP 300 //Auton KP is 250
-#define DEFAULT_TURN_KP 0.0818
+#define kV 1155 //Auton KV is 2112 
+#define kA 18550 //Auton KA is 23760
+#define kP 600 //Auton KP is 250
+#define DEFAULT_TURN_KP 0.0828
 double turnKd = 0.011;
 
 
