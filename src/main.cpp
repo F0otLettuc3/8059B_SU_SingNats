@@ -1,4 +1,6 @@
 #include "main.h"
+#include "Selection.h"
+
 
 void on_center_button() {}
 
@@ -32,6 +34,8 @@ void initialize()
 	Task odometryTask(Odometry, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
 	// Task controlTask(PPControl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
 
+	selector::init();
+
 	
 }
 
@@ -46,17 +50,23 @@ void autonomous()
 
 int autoNum = 5;
 
-switch(autoNum){
-	case 1: red1(); break;
-	case 2: red2(); break;
-	case 3: blue1(); break;
-	case 4: blue2(); break;
-	case 5: skills(); break;
-}
+// switch(autoNum){
+// 	case 1: red1(); break;
+// 	case 2: red2(); break;
+// 	case 3: blue1(); break;
+// 	case 4: blue2(); break;
+// 	case 5: skills(); break;
+// }
+if(selector::auton == 1){red1();}
+if(selector::auton == 2){red2();}
+if(selector::auton == 3){printf("lol");}
+if(selector::auton == -1){blue1();}
+if(selector::auton == -2){blue2();}
+if(selector::auton == -3){printf("lol");}
+if(selector::auton == 0){skills();}
 
-//Red 1 is full awp
-//Red 2 is partial awp
-// Blue 1 is near roller
+
+
 
 }
 
