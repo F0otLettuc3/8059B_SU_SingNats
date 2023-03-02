@@ -6,5 +6,6 @@ void red2();
 void blue1();
 void blue2();
 void skills();
+void driverSkills();
 
 #endif

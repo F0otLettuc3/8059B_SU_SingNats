@@ -2,8 +2,9 @@
 #define kV 1155 //Auton KV is 2112 
 #define kA 18550 //Auton KA is 23760
 #define kP 600 //Auton KP is 250
-#define DEFAULT_TURN_KP 0.0828
-double turnKd = 0.011;
+#define DEFAULT_TURN_KP 0.0848
+#define DEFAULT_TURN_KD 0.011
+double turnKd = DEFAULT_TURN_KD;
 
 
 // #define kA 50000
@@ -51,14 +52,15 @@ void enableBase(bool left, bool right) {
 }
 
 
-void baseTurn(double p_bearing, double kp) {
+void baseTurn(double p_bearing, double kp, double kd) {
   turnKP = kp;
+  turnKd = kd;
   targBearing = p_bearing*toRad;
   printf("Turn to: %.5fdeg\n", p_bearing);
 }
 
 void baseTurn(double p_bearing) {
-  baseTurn(p_bearing, DEFAULT_TURN_KP);
+  baseTurn(p_bearing, DEFAULT_TURN_KP, DEFAULT_TURN_KD);
 }
 
 double calcBaseTurn(double x, double y, bool rev) {

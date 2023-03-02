@@ -20,13 +20,13 @@
 #define imuPort 10
 #define FWEncPort 12
 #define indexerPort 7
-#define intakePiston 8
+// #define intakePiston 8
 #define opticalPort 6
 
 //Pistons
-#define Exp1 5
-#define Exp2 8
-
+#define ExpMid 5
+#define ExpLeft 6
+#define ExpRight 8
 
 
 #endif
