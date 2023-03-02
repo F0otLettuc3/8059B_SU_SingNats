@@ -1,5 +1,5 @@
 #include "main.h"
-// #include "Selection.h"
+#include "Selection.hpp"
 
 
 void on_center_button() {}
@@ -35,7 +35,7 @@ void initialize()
 	Task odometryTask(Odometry, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
 	// Task controlTask(PPControl, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
 
-	// selector::init();
+	selector::init();
 
 	
 }
