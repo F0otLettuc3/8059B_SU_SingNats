@@ -5,14 +5,14 @@ namespace selector{
 int auton;
 int autonCount; 
 
-const char *btnmMap[] = {"","","","","","","","","","",""}; // up to 10 autons
+const char *btnmMap[] = {"","","","","","","","","","","",}; // up to 10 autons
 
 lv_obj_t *tabview;
 lv_obj_t *redBtnm;
 lv_obj_t *blueBtnm;
 
-lv_res_t redBtnmAction(lv_obj_t *btnm, const char *txt){
-	//printf("red button: %s released\n", txt);
+lv_res_t redBtnmAction(lv_obj_t *btnm, const char *txt)
+{
 
 	for(int i = 0; i < autonCount; i++){
 		if(strcmp(txt, btnmMap[i]) == 0){
@@ -25,7 +25,6 @@ lv_res_t redBtnmAction(lv_obj_t *btnm, const char *txt){
 
 lv_res_t blueBtnmAction(lv_obj_t *btnm, const char *txt)
 {
-	//printf("blue button: %s released\n", txt);
 
 	for(int i = 0; i < autonCount; i++){
 		if(strcmp(txt, btnmMap[i]) == 0){
@@ -37,7 +36,6 @@ lv_res_t blueBtnmAction(lv_obj_t *btnm, const char *txt)
 }
 
 lv_res_t skillsBtnAction(lv_obj_t *btn){
-  //printf("skills pressed");
 	auton = 0;
 	return LV_RES_OK;
 }
@@ -53,10 +51,21 @@ int tabWatcher() {
 				if(auton == 0) auton = 1;
 				auton = abs(auton);
 				lv_btnm_set_toggle(redBtnm, true, abs(auton)-1);
+
+				// Set Red Colour
+				lv_theme_t *th = lv_theme_alien_init(360, NULL); 
+				lv_theme_set_current(th);
+
 			}else if(activeTab == 1){
+
 				if(auton == 0) auton = -1;
 				auton = -abs(auton);
 				lv_btnm_set_toggle(blueBtnm, true, abs(auton)-1);
+
+				// Set Blue Colour
+				lv_theme_t *th = lv_theme_alien_init(210, NULL); //Set a HUE value and keep font default RED
+				lv_theme_set_current(th);
+
 			}else{
 				auton = 0;
 			}

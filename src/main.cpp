@@ -52,24 +52,13 @@ void autonomous()
 {
 
 int autoNum = 5;
-
-switch(autoNum){
-	case 1: red1(); break;
-	case 2: red2(); break;
-	case 3: blue1(); break;
-	case 4: blue2(); break;
-	case 5: skills(); break;
-}
-// if(selector::auton == 1){red1();}
-// if(selector::auton == 2){red2();}
-// if(selector::auton == 3){printf("lol");}
-// if(selector::auton == -1){blue1();}
-// if(selector::auton == -2){blue2();}
-// if(selector::auton == -3){printf("lol");}
-// if(selector::auton == 0){skills();}
-
-
-
+if(selector::auton == 1){red1();}
+if(selector::auton == 2){red2();}
+if(selector::auton == 3){printf("lol");}
+if(selector::auton == -1){blue1();}
+if(selector::auton == -2){blue2();}
+if(selector::auton == -3){printf("lol");}
+if(selector::auton == 0){skills();}
 
 }
 
@@ -175,6 +164,7 @@ void opcontrol()
 		if (FWSwitch){MoveFW(2900, 0.027, 0.2125, 0.009, 0.00001);Master.rumble("-");}
 		else{FW.move(0);}	
 		delay(10);
+		if(Master.get_digital(DIGITAL_A)){Shoot(1,100);}
 	
 		// if(Master.get_digital_new_press(DIGITAL_X)){driverSkills();}
 }

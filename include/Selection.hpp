@@ -5,9 +5,9 @@
 #include <string>
 
 //selector configuration
-#define HUE 360
-#define DEFAULT 0
-#define AUTONS "Near Roller", "Far Roller", "Empty"
+#define HUE 360 
+#define DEFAULT 1
+#define AUTONS "Near AWP", "Near Elims", "Far AWP", "Far Elims"
 
 namespace selector
 {

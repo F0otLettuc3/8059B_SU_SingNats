@@ -203,14 +203,14 @@ void skills (){
 	MoveFW(2875, 0.0307, 0.2150, 0.009, 0.00001);
 	delay(1200);
 	Shoot(10,550);
-	// delay(5500);
+	// delay(4400);nn
 	Intake.move(127);
 
 	// First Set of Discs
 	baseMove(15);
 	waitPP(1200);
 	baseTurn(55);
-	waitTurn(1000);
+	waitTurn(800);
 	baseMove(-27);
 	waitPP(1500);
 	delay(100);
@@ -218,7 +218,7 @@ void skills (){
 	baseMove(-10);
 	waitPP(2000);
 	setMaxRPMA(1.48);
-	MoveFW(2800, 0.0307, 0.2125, 0.009, 0.00001);
+	MoveFW(2785, 0.0307, 0.2125, 0.009, 0.00001);
 	baseMove(38);
 	waitPP(1400);
 	baseTurn(2);
@@ -259,8 +259,8 @@ void skills (){
 
 	// First Roller
 	Intake.move(105);
-	baseMove(-13.8);
-	waitPP(1500);
+	baseMove(-13.3);
+	waitPP(1200);
 	MoveFW(2900, 0.0307, 0.2150, 0.009, 0.00001);
 	
 
@@ -271,7 +271,7 @@ void skills (){
 	baseTurn(193);
 	waitTurn(1000);
 	baseMove(-31.5);
-	waitPP(1650);
+	waitPP(1750);
 
 	// Matchloads 2
 	baseMove(28);
@@ -299,9 +299,9 @@ void skills (){
 	waitTurn(1200);
 	baseMove(-52.4);
 	waitPP(1600);
-	baseTurn(274);
+	baseTurn(272);
 	waitTurn(1000);
-	Shoot(2,400);
+	Shoot(3,400);
 
 	setMaxRPMV(600);
 	setMaxRPMA(1.75);
@@ -310,9 +310,17 @@ void skills (){
 	// Third Roller
 	baseTurn(290);
 	waitTurn(700);
-	baseMove(-43.4);
+	baseMove(-44);
 	waitPP(1450);
-	
+
+
+	// // Fourth Roller
+	// baseMove(15);
+	// waitPP(700);
+	// baseTurn(10);
+	// waitTurn(1100);
+	// baseMove(-13);
+	// waitPP(800);
 
 	//Expansion lezgo
 	baseMove(15);
